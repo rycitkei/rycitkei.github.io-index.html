@@ -1,0 +1,262 @@
+<html>
+    <head>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+        <script defer src = "https://unpkg.com/p5.collide2d"></script>
+    </head>
+    <body>
+        <style>
+            body {
+                margin:0;
+            }
+            button {
+                width:60px;
+                height:30px;
+            }
+        </style>
+        <script>
+            
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var x = w/2;
+            var y = h-25;
+            var player;
+            var red;
+            var bubble;
+            var timer = 0;
+            var changeColor = 0;
+            var cool = true;
+            var gstart;
+            var b = 0;
+            function setup() {
+                createCanvas(w,h);
+                player = new player();
+                bubble = new bubble();
+            }
+            function draw() {
+                clear();
+                player.show();
+                player.update();
+                bubble.show();
+                bubble.update();
+                textSize(70);
+            }
+            function player() {
+                ///force of gravity(force), can be in any direction
+                this.gravity = 1;
+                ///oppositional force
+                this.lift = -5;
+                //speed of pur player
+                this.velocity = 0;
+                //show the object
+                this.count = 0;
+                this.c = color(255,0,0);
+                this.show = function() {
+                    fill(this.c);
+                    circle(x,y,50);
+                }
+                ///update player
+                this.update = function() {
+                    ///add gravity to velocity
+                    this.velocity += this.gravity;
+                    ///direction of gravity
+                    y += this.velocity;
+                    ///resistance to velocity
+                    this.velocity *= 0.9;
+                    ///stop player from falling through the foor
+                    
+                    if (y > h-25) {
+                    y = h-25;///this.y - h-25 is like sinking thru mud
+                    if (this.count === 0) {
+                        this.velocity = -5;
+                    }    
+                    if (this.count === 1) {
+                        this.velocity = -4;
+                    }
+                    if (this.count === 2) {
+                        this.velocity = -3;
+                    }
+                    if (this.count === 3) {
+                        this.velocity = -2;
+                    }
+                    if (this.count === 4) {
+                        this.velocity = -1;
+                    }
+                    if (this.count === 5) {
+                        this.velocity = 0;
+                    }
+                    ///adds to counter
+                    this.count = this.count +1;
+                    }
+                    
+                    //up
+                    if ((keyIsDown(87)) && (y > 25)) {
+                        this.velocity += this.lift;
+                        this.count = 0;
+                    }
+                    //down
+                    if ((keyIsDown(83)) && (y < h-25)) {
+                        y += 5;
+                    }
+                    //left
+                    if ((keyIsDown(65)) && (x > 25)) {
+                        x -= 5;
+                    }
+                    //right
+                    if ((keyIsDown(68)) && (x < w-25)) {
+                        x += 5;
+                    }
+                    this.change = random(200,100000);
+                    if (millis() >= this.change + changeColor) {
+                        if (cool == true) {
+                            this.c = color(255, 0, 0);
+                            cool = false;
+                        }
+                        else if (cool == false) {
+                            this.c = color(0,0,255);
+                            cool = true;
+                        }
+                        changeColor = millis();
+                    }
+                }
+            }
+            function bubble() {
+                this.x = random(50,w-50);
+                this.y = random(h-200,h-80);
+                this.gravity = 1;
+                this.velocity = 0.5;
+                this.secondx = random(50,w-50);
+                this.secondy = random(h-200,h-80);
+                
+                this.thirdx = random(50,w-50);
+                this.thirdy = random(h-200,h-80);
+                
+                this.fourx = random(50,w-50);
+                this.foury = random(h-200,h-80);
+                
+                this.fivex = random(50,w-50);
+                this.fivey = random(h-200,h-80);
+                
+                this.sixx = random(50,w-50);
+                this.sixy = random(h-200,h-80);
+                
+                this.sevx = random(50,w-50);
+                this.sevy = random(h-200,h-80);
+                
+                this.eightx = random(50,w-50);
+                this.eighty = random(h-200,h-80);
+                
+                this.ninex = random(50,w-50);
+                this.niney = random(h-200,h-80);
+                
+                this.tenx = random(50,w-50);
+                this.teny = random(h-200,h-80);
+                this.show = function() {
+                        c = color(255,0,0);
+                        fill(c);
+                        circle(this.x,this.y,50);
+                }
+                this.update = function() {
+                    this.velocity += this.gravity;
+                    this.y -= this.velocity;
+                    this.velocity *= .8;
+                    hit = collideCircleCircle(this.x,this.y,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                    if (this.y < 50) {
+                        circle(this.secondx,this.secondy,50);
+                        if (this.y <0) {
+                            this.velocity += this.gravity;
+                            this.secondy -= this.velocity;
+                            this.velocity *= .9;
+                            hit = collideCircleCircle(this.secondx,this.secondy,50,x,y,50);
+                            hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.secondy < 50) {
+                        circle(this.thirdx,this.thirdy,50);
+                        if (this.secondy <0) {
+                            this.velocity += this.gravity;
+                            this.thirdy -= this.velocity;
+                            this.velocity *= .8;
+                    hit = collideCircleCircle(this.thirdx,this.thirdy,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.thirdy < 50) {
+                        circle(this.fourx,this.foury,50);
+                        if (this.thirdy <0) {
+                            this.velocity += this.gravity;
+                            this.foury -= this.velocity;
+                            this.velocity *= .85; 
+                            hit = collideCircleCircle(this.fourx,this.foury,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.foury < 50) {
+                        circle(this.fivex,this.fivey,50);
+                        if (this.foury <0) {
+                            this.velocity += this.gravity;
+                            this.fivey -= this.velocity;
+                            this.velocity *= .9;
+                    hit = collideCircleCircle(this.fivex,this.fivey,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.fivey < 50) {
+                        circle(this.sixx,this.sixy,50);
+                        if (this.fivey <0) {
+                            this.velocity += this.gravity;
+                            this.sixy -= this.velocity;
+                            this.velocity *= .85;
+                    hit = collideCircleCircle(this.sixx,this.sixy,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.sixy < 50) {
+                        circle(this.sevx,this.sevy,50);
+                        if (this.sixy <0) {
+                            this.velocity += this.gravity;
+                            this.sevy -= this.velocity;
+                            this.velocity *= .8;
+                    hit = collideCircleCircle(this.sevx,this.sevy,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.sevy < 50) {
+                        circle(this.eightx,this.eighty,50);
+                        if (this.sevy <0) {
+                            this.velocity += this.gravity;
+                            this.eighty -= this.velocity;
+                            this.velocity *= .9;
+                    hit = collideCircleCircle(this.eightx,this.eighty,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.eighty < 50) {
+                        circle(this.ninex,this.niney,50);
+                        if (this.eighty <0) {
+                            this.velocity += this.gravity;
+                            this.niney -= this.velocity;
+                            this.velocity *= .8;
+                    hit = collideCircleCircle(this.ninex,this.niney,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.niney < 50) {
+                        circle(this.tenx,this.teny,50);
+                        if (this.niney <0) {
+                            this.velocity += this.gravity;
+                            this.teny -= this.velocity;
+                            this.velocity *= .9;
+                    hit = collideCircleCircle(this.tenx,this.teny,50,x,y,50);
+                    hit ? location.href = 'win.html':'';
+                        }
+                    }
+                    if (this.teny < 0) {
+                        location.href = 'lose.html';
+                    }
+                }
+            }
+            
+        </script>
+    </body>
+</html>
