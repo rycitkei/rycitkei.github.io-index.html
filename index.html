@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+        <script defer src = "https://unpkg.com/p5.collide2d"></script>
+    </head>
+    <body>
+        <style>
+            body {
+                margin:0;
+            }
+            button {
+                width:60px;
+                height:30px;
+            }
+        </style>
+        <script>
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var easy;
+            var med;
+            var pro;
+            function setup() {
+                createCanvas(w,h);
+                easy = createButton('Start');
+                easy.position(5,h-40);
+                easy.mousePressed(easier);
+                fireball = loadImage('instructions.jpg');
+                /*
+                med = createButton('Medium');
+                med.position(70,h-40);
+                med.mousePressed(medi);
+                pro = createButton('Pro');
+                pro.position(135,h-40);
+                pro.mousePressed(proMode);
+                */
+            }
+            function draw() {
+                clear();
+                //create title
+                textSize(70);
+                text('バーブルのゲーム',0,60);
+                //how to play
+                textSize(30);
+                text('How to play:',0,100);
+                image(fireball,0,150,200,200);
+                //choose game mode
+                text('Click to start',0,h-50);
+
+
+            }
+            function easier() {
+                location.href = 'easy.html';
+            }
+            function medi() {
+                location.href = 'med.html';
+            }
+            function proMode() {
+                location.href = 'pro.html';
+            }
+        </script>
+    </body>
+</html>
